@@ -1,7 +1,6 @@
-import requests
+import matplotlib.pyplot as plt
 import pandas as pd
-import matplotlib.pyplot as plt 
-
+import requests
 from dateutil import parser
 from jupyterthemes import jtplot
 
@@ -13,62 +12,36 @@ df = pd.DataFrame(data["values"])
 
 url_current_price = "https://api.coindesk.com/v1/bpi/currentprice.json"
 data_cp = requests.get(url_current_price).json()
-cp = float(data_cp["bpi"]["USD"]["rate"].replace(",",""))
+cp = float(data_cp["bpi"]["USD"]["rate"].replace(",", ""))
 ct = parser.parse(data_cp["time"]["updated"])
 
-df = df.append({"x":ct.timestamp(), "y":cp}, ignore_index=True)
+df = df.append({"x": ct.timestamp(), "y": cp}, ignore_index=True)
 
-df.columns = ["Date","USD/BTC"]
+df.columns = ["Date", "USD/BTC"]
 df["Date"] = pd.to_datetime(df["Date"], unit="s")
-df=df.set_index("Date")
+df = df.set_index("Date")
 
 df["Max"] = df["USD/BTC"].max()
 imax = df["USD/BTC"].idxmax()
 df["local_Min"] = df["USD/BTC"][imax:].min()
 
-ax = df["2010-11":].plot(
-    logy=True,
-    drawstyle="steps",
-    figsize=(16, 6)
-)
+ax = df["2010-11":].plot(logy=True, drawstyle="steps", figsize=(16, 6))
 
-ax.annotate(
-    df["USD/BTC"][imax],
-    xy=(
-        "2012-11",
-        df["USD/BTC"][imax]
-    ),
-    color="g"
-)
+ax.annotate(df["USD/BTC"][imax], xy=("2012-11", df["USD/BTC"][imax]), color="g")
 ax.axvline(imax, color="g")
 
 lmi = df["USD/BTC"][imax:].idxmin()
-ax.annotate(
-    df["USD/BTC"][lmi], 
-    xy=(
-        "2012-11",
-        df["USD/BTC"][lmi]
-    ),
-    color="r"
-)
+ax.annotate(df["USD/BTC"][lmi], xy=("2012-11", df["USD/BTC"][lmi]), color="r")
 ax.axvline(lmi, color="r")
 
-ax.get_figure().savefig(
-    "bitcoin-all.png",
-    bbox_inches="tight"
-)
+ax.get_figure().savefig("bitcoin-all.png", bbox_inches="tight")
 
-ix = df["USD/BTC"][df["USD/BTC"]>df["local_Min"]].index
+ix = df["USD/BTC"][df["USD/BTC"] > df["local_Min"]].index
 if len(ix) > 2:
     start = ix[0]
 else:
     start = "2017-9"
 plt.clf()
-df[start:]["USD/BTC"].plot(
-    drawstyle="steps",
-    figsize=(16, 6)
-).get_figure(
-).savefig(
-    "bitcoin-lastlinear.png",
-    bbox_inches="tight"
+df[start:]["USD/BTC"].plot(drawstyle="steps", figsize=(16, 6)).get_figure().savefig(
+    "bitcoin-lastlinear.png", bbox_inches="tight"
 )
