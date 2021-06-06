@@ -1,6 +1,7 @@
 name: Make Bitcoin Figures
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: "* * * * *"
 
