@@ -1,6 +1,6 @@
 # bitcoin
 
-![Bitcoin All](bitcoin-all.png)
+![Bitcoin All](bitcoin-all.svg)
 
 
-![Bitcoin Last](bitcoin-lastlinear.png)
+![Bitcoin Last](bitcoin-lastlinear.svg)
