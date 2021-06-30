@@ -34,7 +34,7 @@ lmi = df["USD/BTC"][imax:].idxmin()
 ax.annotate(df["USD/BTC"][lmi], xy=("2012-11", df["USD/BTC"][lmi]), color="r")
 ax.axvline(lmi, color="r")
 
-ax.get_figure().savefig("bitcoin-all.png", bbox_inches="tight")
+ax.get_figure().savefig("bitcoin-all.svg", bbox_inches="tight")
 
 ix = df["USD/BTC"][df["USD/BTC"] > df["local_Min"]].index
 if len(ix) > 2:
@@ -43,5 +43,5 @@ else:
     start = "2017-9"
 plt.clf()
 df[start:]["USD/BTC"].plot(drawstyle="steps", figsize=(16, 6)).get_figure().savefig(
-    "bitcoin-lastlinear.png", bbox_inches="tight"
+    "bitcoin-lastlinear.svg", bbox_inches="tight"
 )
