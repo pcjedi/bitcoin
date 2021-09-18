@@ -1,6 +1,7 @@
 name: Make Bitcoin Figures
 
 on:
+  push:
   workflow_dispatch:
   schedule:
     - cron: "* * * * *"
@@ -10,14 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
-    - name: Install dependencies
-      run: pip install -r requirements.txt
-    - name: make figures
-      run: python make_figure.py
+    - uses: actions/setup-python@v2
+    - run: pip install -r requirements.txt
+    - run: python make_figure.py
     - name: Commit and push if it changed
       run: |-
         git config user.name "Automated"
