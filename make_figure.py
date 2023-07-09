@@ -15,7 +15,7 @@ data_cp = requests.get(url_current_price).json()
 cp = float(data_cp["bpi"]["USD"]["rate"].replace(",", ""))
 ct = parser.parse(data_cp["time"]["updated"])
 
-df = pd.concat([df, pd.DataFrame(data=[[ct.timestamp()],[cp]], columns=["x", "y"])], ignore_index=True)
+df = pd.concat([df, pd.DataFrame(data=[ct.timestamp(),cp], columns=["x", "y"])], ignore_index=True)
 
 df.columns = ["Date", "USD/BTC"]
 df["Date"] = pd.to_datetime(df["Date"], unit="s")
