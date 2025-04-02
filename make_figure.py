@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import requests
-from dateutil import parser
+from datetime import datetime
 from jupyterthemes import jtplot
 
 jtplot.style(theme="onedork")
@@ -10,10 +10,10 @@ url = "https://api.blockchain.info/charts/market-price?timespan=all"
 data = requests.get(url).json()
 df = pd.DataFrame(data["values"])
 
-url_current_price = "https://api.coindesk.com/v1/bpi/currentprice.json"
+url_current_price = "https://data-api.coindesk.com/index/cc/v1/latest/tick?market=ccix&instruments=BTC-USD"
 data_cp = requests.get(url_current_price).json()
-cp = float(data_cp["bpi"]["USD"]["rate"].replace(",", ""))
-ct = parser.parse(data_cp["time"]["updated"])
+cp = float(data_cp["Data"]["BTC-USD"]["VALUE"])
+ct = datetime.now()
 
 df = pd.concat([df, pd.DataFrame(data=[[ct.timestamp(),cp]], columns=["x", "y"])], ignore_index=True)
 
