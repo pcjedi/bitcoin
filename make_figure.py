@@ -10,9 +10,9 @@ url = "https://api.blockchain.info/charts/market-price?timespan=all"
 data = requests.get(url).json()
 df = pd.DataFrame(data["values"])
 
-url_current_price = "https://data-api.coindesk.com/index/cc/v1/latest/tick?market=ccix&instruments=BTC-USD"
+url_current_price = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
 data_cp = requests.get(url_current_price).json()
-cp = float(data_cp["Data"]["BTC-USD"]["VALUE"])
+cp = float(data_cp["bitcoin"]["usd"])
 ct = datetime.now()
 
 df = pd.concat([df, pd.DataFrame(data=[[ct.timestamp(),cp]], columns=["x", "y"])], ignore_index=True)
